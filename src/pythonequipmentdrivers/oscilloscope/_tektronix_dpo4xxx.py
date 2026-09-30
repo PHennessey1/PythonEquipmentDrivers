@@ -3,6 +3,7 @@ from dataclasses import dataclass
 from enum import Enum
 from pathlib import Path
 from typing import Union
+import os
 
 import numpy as np
 
@@ -374,6 +375,35 @@ class Tektronix_DPO4xxx(VisaResource):
         self.write_resource("ACQUIRE:STOPAFTER SEQUENCE")
         self.write_resource("ACQUIRE:STATE ON")
 
+    def set_trigger_source(self, channel: int) -> None:
+        """
+        set_trigger_source(Channel)
+
+        Sets the analog channel (1-4) which will be used by the edge trigger function.
+
+        Args:
+            channel (int): Analog channel input that will be used to define the edge trigger 
+                provided as an integer from 1 to 4
+        """
+
+        if not (1 <= channel <= 4):
+            raise ValueError("channel out of the valid range [1-4]")
+
+        self.write_resource(f"TRIGger:A:EDGE:SOUrce CH{channel}")
+
+    def get_trigger_source(self) -> float:
+        """
+        get_trigger_source()
+
+        Retrieves the source channel for the edge trigger
+
+        Returns:
+            int: corresponding to the analog channel (1-4). 1 = CH1
+        """
+
+        response = self.query_resource("TRIGger:A:EDGE:SOUrce?")
+        return int(response)
+
     def set_trigger_position(self, offset: float) -> None:
         """
         set_trigger_position(offset)
@@ -562,7 +592,7 @@ class Tektronix_DPO4xxx(VisaResource):
         """
         get_measure_data(*meas_idx)
 
-        Returns the current value of the requesed measurement(s) reference by
+        Returns the current value of the requested measurement(s) reference by
         the provided index(s).
 
         Args:
@@ -663,8 +693,10 @@ class Tektronix_DPO4xxx(VisaResource):
 
         # add file extension
         if isinstance(image_title, Path):
+            image_title.parent.mkdir(parents=True, exist_ok=True)
             file_path = image_title.parent.joinpath(image_title.name + ".png")
         elif isinstance(image_title, str):
+            #os.makedirs(image_title, exist_ok=True)
             file_path = f"{image_title}.png"
         else:
             raise ValueError("image_title must be a str or path-like object")

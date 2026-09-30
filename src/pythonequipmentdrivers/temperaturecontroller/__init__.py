@@ -3,6 +3,7 @@ from ._sun_ec01 import SUN_ECO1
 from ._testequity_1007c import TestEquity_1007C
 from ._thermotron_2800 import Thermotron_2800
 from ._thermospot import ThermoSpot
+from ._watlow_f4_GPIB import WatlowF4
 
 __all__ = [
     "Koolance_EXC900",
@@ -10,4 +11,5 @@ __all__ = [
     "TestEquity_1007C",
     "Thermotron_2800",
     "ThermoSpot",
+    "WatlowF4"
 ]

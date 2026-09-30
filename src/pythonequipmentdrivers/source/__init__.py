@@ -14,6 +14,7 @@ from ._keysight_n6700 import Keysight_N6700
 from ._keysight_rp7900 import Keysight_RP7900
 from ._ppsc_3150afx import PPSC_3150AFX
 from ._sorensen_sga import Sorensen_SGA
+from ._bkprecision_9206 import BKPrecision_9206
 
 
 class VoltageSource(Protocol):
@@ -48,6 +49,7 @@ class VoltageSource(Protocol):
 __all__ = (
     "Agilent_6030A",
     "BKPrecision_9132B",
+    "BKPrecision_9206",
     "CaliforniaInstruments_CSW5550",
     "Chroma_62000P",
     "Elgar_1750A",
