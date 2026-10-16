@@ -1,4 +1,4 @@
-from typing import Union
+from typing import Union 
 from pythonequipmentdrivers.core import VisaResource 
 
 class WatlowF4(VisaResource): 
